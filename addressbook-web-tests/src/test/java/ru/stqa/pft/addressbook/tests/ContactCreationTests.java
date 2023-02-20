@@ -4,14 +4,9 @@ import org.testng.annotations.*;
 import ru.stqa.pft.addressbook.model.ContactData;
 
 public class ContactCreationTests extends TestBase {
-  private WebDriver driver;
-  private String baseUrl;
-  private boolean acceptNextAlert = true;
-  private StringBuffer verificationErrors = new StringBuffer();
-  private JavascriptExecutor js;
 
   @Test
-  public void testContactCreationTests() throws Exception {
+  public void testContactCreation() throws Exception {
     driver.get("http://localhost/addressbook/");
     driver.findElement(By.name("user")).click();
     driver.findElement(By.name("user")).clear();
