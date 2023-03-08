@@ -1,4 +1,4 @@
-package ru.stqa.pft.addressbook.tests;
+package com.example.UntitledTestSuite;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
@@ -10,7 +10,7 @@ import org.openqa.selenium.support.ui.Select;
 import java.io.File;
 import org.apache.commons.io.FileUtils;
 
-public class ContactModificationTests {
+public class ContactDeletionTests {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
@@ -27,8 +27,8 @@ public class ContactModificationTests {
   }
 
   @Test
-  public void testContactModificationTests() throws Exception {
-    driver.get("http://localhost/addressbook/index.php");
+  public void testContactDeletionTests() throws Exception {
+    driver.get("http://localhost/addressbook/edit.php");
     driver.findElement(By.name("user")).click();
     driver.findElement(By.name("user")).clear();
     driver.findElement(By.name("user")).sendKeys("admin");
@@ -38,32 +38,13 @@ public class ContactModificationTests {
     driver.findElement(By.name("pass")).sendKeys("secret");
     driver.findElement(By.id("LoginForm")).click();
     driver.findElement(By.xpath("//input[@value='Login']")).click();
-    driver.findElement(By.xpath("//img[@alt='Edit']")).click();
-    driver.get("http://localhost/addressbook/edit.php?id=1");
-    driver.findElement(By.name("firstname")).click();
-    driver.findElement(By.name("firstname")).clear();
-    driver.findElement(By.name("firstname")).sendKeys("Sergo1");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.name("lastname")).click();
-    driver.findElement(By.name("lastname")).clear();
-    driver.findElement(By.name("lastname")).sendKeys("Testing1");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.name("company")).click();
-    driver.findElement(By.name("company")).clear();
-    driver.findElement(By.name("company")).sendKeys("ooo \"tests\"");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.name("home")).click();
-    driver.findElement(By.name("home")).clear();
-    driver.findElement(By.name("home")).sendKeys("+7 499 6666661");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.name("email")).click();
-    driver.findElement(By.name("email")).clear();
-    driver.findElement(By.name("email")).sendKeys("email@combat.room1");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.xpath("//div[@id='content']/form/input[22]")).click();
-    driver.get("http://localhost/addressbook/edit.php");
-    driver.findElement(By.linkText("home page")).click();
-    driver.get("http://localhost/addressbook/index.php");
+    driver.findElement(By.linkText("home")).click();
+    driver.get("http://localhost/addressbook/");
+    acceptNextAlert = true;
+    driver.findElement(By.id("5")).click();
+    driver.findElement(By.xpath("//input[@value='Delete']")).click();
+    assertTrue(closeAlertAndGetItsText().matches("^Delete 1 addresses[\\s\\S]$"));
+    driver.findElement(By.linkText("home")).click();
     driver.findElement(By.linkText("Logout")).click();
   }
 

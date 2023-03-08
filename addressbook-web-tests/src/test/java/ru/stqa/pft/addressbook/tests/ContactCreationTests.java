@@ -1,12 +1,33 @@
 package ru.stqa.pft.addressbook.tests;
 
+import java.util.regex.Pattern;
+import java.util.concurrent.TimeUnit;
 import org.testng.annotations.*;
-import ru.stqa.pft.addressbook.model.ContactData;
+import static org.testng.Assert.*;
+import org.openqa.selenium.*;
+import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.support.ui.Select;
+import java.io.File;
+import org.apache.commons.io.FileUtils;
 
-public class ContactCreationTests extends TestBase {
+public class ContactCreationTests {
+  private WebDriver driver;
+  private String baseUrl;
+  private boolean acceptNextAlert = true;
+  private StringBuffer verificationErrors = new StringBuffer();
+  private JavascriptExecutor js;
+
+  @BeforeClass(alwaysRun = true)
+  public void setUp() throws Exception {
+    System.setProperty("webdriver.chrome.driver", "");
+    driver = new ChromeDriver();
+    baseUrl = "https://www.google.com/";
+    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
+    js = (JavascriptExecutor) driver;
+  }
 
   @Test
-  public void testContactCreation() throws Exception {
+  public void testContactCreationTests() throws Exception {
     driver.get("http://localhost/addressbook/");
     driver.findElement(By.name("user")).click();
     driver.findElement(By.name("user")).clear();
@@ -41,6 +62,35 @@ public class ContactCreationTests extends TestBase {
     driver.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
     driver.findElement(By.linkText("home page")).click();
     driver.findElement(By.linkText("Logout")).click();
+    driver.findElement(By.name("user")).click();
+    driver.findElement(By.name("user")).clear();
+    driver.findElement(By.name("user")).sendKeys("admin");
+    driver.findElement(By.xpath("//form[@id='LoginForm']/label")).click();
+    driver.findElement(By.name("pass")).click();
+    driver.findElement(By.name("pass")).clear();
+    driver.findElement(By.name("pass")).sendKeys("secret");
+    driver.findElement(By.xpath("//input[@value='Login']")).click();
+    driver.get("http://localhost/addressbook/");
+    driver.findElement(By.linkText("add new")).click();
+    driver.findElement(By.name("firstname")).click();
+    driver.findElement(By.name("firstname")).clear();
+    driver.findElement(By.name("firstname")).sendKeys("test1");
+    driver.findElement(By.name("theform")).click();
+    driver.findElement(By.name("lastname")).click();
+    driver.findElement(By.name("lastname")).clear();
+    driver.findElement(By.name("lastname")).sendKeys("test2");
+    driver.findElement(By.xpath("//div[@id='content']/form/label[3]")).click();
+    driver.findElement(By.name("firstname")).click();
+    driver.findElement(By.xpath("//div[@id='content']/form/label[4]")).click();
+  }
+
+  @AfterClass(alwaysRun = true)
+  public void tearDown() throws Exception {
+    driver.quit();
+    String verificationErrorString = verificationErrors.toString();
+    if (!"".equals(verificationErrorString)) {
+      fail(verificationErrorString);
+    }
   }
 
   private boolean isElementPresent(By by) {

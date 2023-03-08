@@ -1,69 +1,78 @@
-package ru.stqa.pft.addressbook.tests;
+package ru.stqa.pft.addressbook;
 
 import java.util.regex.Pattern;
 import java.util.concurrent.TimeUnit;
 import org.testng.annotations.*;
 import static org.testng.Assert.*;
 import org.openqa.selenium.*;
-import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 import org.openqa.selenium.support.ui.Select;
-import java.io.File;
-import org.apache.commons.io.FileUtils;
 
-public class ContactModificationTests {
+public class GroupCreationTests2 {
   private WebDriver driver;
   private String baseUrl;
   private boolean acceptNextAlert = true;
   private StringBuffer verificationErrors = new StringBuffer();
-  private JavascriptExecutor js;
 
   @BeforeClass(alwaysRun = true)
   public void setUp() throws Exception {
-    System.setProperty("webdriver.chrome.driver", "");
-    driver = new ChromeDriver();
+    driver = new FirefoxDriver();
     baseUrl = "https://www.google.com/";
-    driver.manage().timeouts().implicitlyWait(Duration.ofSeconds(30));
-    js = (JavascriptExecutor) driver;
+    driver.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
   }
 
   @Test
-  public void testContactModificationTests() throws Exception {
-    driver.get("http://localhost/addressbook/index.php");
+  public void testGroupCreationTests2() throws Exception {
+    driver.get("http://localhost/addressbook/");
     driver.findElement(By.name("user")).click();
+    driver.findElement(By.name("user")).clear();
+    driver.findElement(By.name("user")).sendKeys("admin");
+    driver.findElement(By.name("pass")).click();
+    driver.findElement(By.name("pass")).clear();
+    driver.findElement(By.name("pass")).sendKeys("secret");
+    driver.findElement(By.id("LoginForm")).click();
+    driver.findElement(By.xpath("//input[@value='Login']")).click();
+    driver.findElement(By.linkText("add new")).click();
+    driver.findElement(By.name("firstname")).click();
+    driver.findElement(By.name("firstname")).clear();
+    driver.findElement(By.name("firstname")).sendKeys("Serg");
+    driver.findElement(By.name("lastname")).click();
+    driver.findElement(By.name("lastname")).clear();
+    driver.findElement(By.name("lastname")).sendKeys("Test");
+    driver.findElement(By.name("theform")).click();
+    driver.findElement(By.name("home")).click();
+    driver.findElement(By.name("home")).clear();
+    driver.findElement(By.name("home")).sendKeys("+7900");
+    driver.findElement(By.xpath("//div[@id='content']/form/label[9]")).click();
+    driver.findElement(By.name("email")).click();
+    driver.findElement(By.name("email")).clear();
+    driver.findElement(By.name("email")).sendKeys("serg@test.test");
+    driver.findElement(By.name("theform")).click();
+    driver.findElement(By.xpath("//div[@id='content']/form/input[21]")).click();
+    driver.findElement(By.linkText("home page")).click();
+    driver.findElement(By.linkText("Logout")).click();
     driver.findElement(By.name("user")).clear();
     driver.findElement(By.name("user")).sendKeys("admin");
     driver.findElement(By.xpath("//form[@id='LoginForm']/label")).click();
     driver.findElement(By.name("pass")).click();
     driver.findElement(By.name("pass")).clear();
     driver.findElement(By.name("pass")).sendKeys("secret");
-    driver.findElement(By.id("LoginForm")).click();
+    driver.findElement(By.id("content")).click();
     driver.findElement(By.xpath("//input[@value='Login']")).click();
-    driver.findElement(By.xpath("//img[@alt='Edit']")).click();
-    driver.get("http://localhost/addressbook/edit.php?id=1");
-    driver.findElement(By.name("firstname")).click();
-    driver.findElement(By.name("firstname")).clear();
-    driver.findElement(By.name("firstname")).sendKeys("Sergo1");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.name("lastname")).click();
-    driver.findElement(By.name("lastname")).clear();
-    driver.findElement(By.name("lastname")).sendKeys("Testing1");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.name("company")).click();
-    driver.findElement(By.name("company")).clear();
-    driver.findElement(By.name("company")).sendKeys("ooo \"tests\"");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.name("home")).click();
-    driver.findElement(By.name("home")).clear();
-    driver.findElement(By.name("home")).sendKeys("+7 499 6666661");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.name("email")).click();
-    driver.findElement(By.name("email")).clear();
-    driver.findElement(By.name("email")).sendKeys("email@combat.room1");
-    driver.findElement(By.xpath("//form[@action='edit.php']")).click();
-    driver.findElement(By.xpath("//div[@id='content']/form/input[22]")).click();
-    driver.get("http://localhost/addressbook/edit.php");
-    driver.findElement(By.linkText("home page")).click();
-    driver.get("http://localhost/addressbook/index.php");
+    driver.findElement(By.linkText("groups")).click();
+    driver.findElement(By.name("new")).click();
+    driver.findElement(By.name("group_name")).click();
+    driver.findElement(By.name("group_name")).clear();
+    driver.findElement(By.name("group_name")).sendKeys("test1");
+    driver.findElement(By.name("group_header")).click();
+    driver.findElement(By.name("group_header")).clear();
+    driver.findElement(By.name("group_header")).sendKeys("test2");
+    driver.findElement(By.name("group_footer")).click();
+    driver.findElement(By.name("group_footer")).clear();
+    driver.findElement(By.name("group_footer")).sendKeys("test3");
+    driver.findElement(By.xpath("//form[@action='/addressbook/group.php']")).click();
+    driver.findElement(By.name("submit")).click();
+    driver.findElement(By.linkText("group page")).click();
     driver.findElement(By.linkText("Logout")).click();
   }
 

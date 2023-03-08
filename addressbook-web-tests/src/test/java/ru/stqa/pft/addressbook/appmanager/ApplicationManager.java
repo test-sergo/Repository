@@ -2,21 +2,30 @@ package ru.stqa.pft.addressbook.appmanager;
 
 import org.openqa.selenium.*;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
+import org.openqa.selenium.remote.Browser;
 
 import java.util.concurrent.TimeUnit;
 
 public class ApplicationManager {
 
-    public WebDriver wd;
+    WebDriver wd;
 
     private SessionHelper sessionHelper;
     private NavigationHelper navigationHelper;
     private GroupHelper groupHelper;
+    private ContactHelper contactHelper;
     public JavascriptExecutor js;
 
     public void init() {
+        Browser browser = Browser.CHROME;
+        if (browser == Browser.CHROME) {
+            wd = new ChromeDriver();
+        } else if (browser == Browser.FIREFOX) {
+            wd = new FirefoxDriver();
+        }
         wd = new ChromeDriver();
-        wd.manage().timeouts().implicitlyWait(30, TimeUnit.SECONDS);
+        wd.manage().timeouts().implicitlyWait(5, TimeUnit.SECONDS);
         js = (JavascriptExecutor) wd;
         groupHelper = new GroupHelper(wd);
         navigationHelper = new NavigationHelper(wd);
@@ -25,6 +34,7 @@ public class ApplicationManager {
     }
 
     public void stop() {
+
         wd.quit();
     }
 
@@ -47,10 +57,12 @@ public class ApplicationManager {
     }
 
     public GroupHelper getGroupHelper() {
+
         return groupHelper;
     }
 
     public NavigationHelper getNavigationHelper() {
+
         return navigationHelper;
     }
 }
